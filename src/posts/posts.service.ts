@@ -2,6 +2,7 @@ import {  ConflictException, Injectable, InternalServerErrorException, NotFoundE
 import { IPost } from "./interfaces/cat.interface";
 import { PrismaService } from "../prisma.service";
 
+
 @Injectable()
 export class PostsService{
 
@@ -65,6 +66,21 @@ export class PostsService{
 
         }
 
+    }
+
+    async deletePost(id:number){
+        try{
+            return await this.prisma.post.delete({
+                where:{
+                    id
+                }
+            })
+        }catch(error){
+            if(error.code === "P2025"){
+                throw new NotFoundException(`Post with id ${id} not found`)
+            }
+            throw new InternalServerErrorException(`Unexpected Error while deleting Post`)
+        }
     }
     
 
