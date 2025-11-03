@@ -15,8 +15,8 @@ export class PostsController {
     }
 
     @Get(':id')
-    getPostById(@Param('id',ParseIntPipe) id:number){
-        return this.postsService.getPostById(id)
+    async getPostById(@Param('id',ParseIntPipe) id:number){
+        return await this.postsService.getPostById(id)
     }
 
     @Post()
@@ -25,8 +25,8 @@ export class PostsController {
     }
     
     @Put(':id')
-    updatePost(@Param('id',ParseIntPipe) id:number, @Body() post:UpdatePostDto){
-        
+    async updatePost(@Param('id',ParseIntPipe) id:number, @Body() post:UpdatePostDto){
+        return await this.postsService.updatePost(id,post)
     }
     
 

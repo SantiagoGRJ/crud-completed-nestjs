@@ -1,27 +1,22 @@
-import {  Injectable, NotFoundException } from "@nestjs/common";
+import {  ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { IPost } from "./interfaces/cat.interface";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class PostsService{
 
-     constructor (private prisma:PrismaService) {}
-
-
-    private posts : IPost[] = [
-        {
-            name:'first title',
-            content:'first content',
-            release_date:12
-        }
-    ]
+    constructor (private prisma:PrismaService) {}
 
    async getAllPosts () {
         return await this.prisma.post.findMany()
     }
 
-    getPostById(id:number){
-        const post = this.posts.find(value => value.id === id)
+   async getPostById(id:number){
+        const post = await this.prisma.post.findUnique({
+            where:{
+                id:id
+            }
+        })
 
         if(!post){
             return new NotFoundException(`Post with id ${id} not found`)
@@ -31,10 +26,44 @@ export class PostsService{
     }
 
     async createPost(post:IPost) {
-       return await this.prisma.post.create({data:post})
+       try {
+        const newPost = await this.prisma.post.create({data:post}) 
+
+        return newPost
+
+       } catch (error) {
+        
+        if(error.code === "P2002"){
+            throw new ConflictException(`The ${error.meta?.target} is taken, try another different`)
+        
+        }
+        
+        throw new InternalServerErrorException('Create Post Error')
+       }   
     }
 
-    updatePost(id:number,post:IPost){
+    async updatePost(id:number,post:IPost){
+       
+        try{
+             const updatePost = await this.prisma.post.update({
+            where:{
+                id:id
+            },
+            data:post
+        })
+        return updatePost
+        
+        }catch (error) {
+            if(error.code === "P2025"){
+                throw new NotFoundException(`Post with id ${id} not found`)
+            }
+            if(error.code === "P2002"){
+                throw new ConflictException(`The ${error.meta?.target} is taken, try another different`)
+            }
+
+            throw new InternalServerErrorException('Update Post Error')
+
+        }
 
     }
     
