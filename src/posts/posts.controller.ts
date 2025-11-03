@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
+import { UpdatePostDto } from "./dto/update-post.dto";
 
 
 @Controller('posts')
@@ -21,6 +22,11 @@ export class PostsController {
     @Post()
     createPost(@Body() post:CreatePostDto){
         return this.postsService.createPost(post)
+    }
+    
+    @Put(':id')
+    updatePost(@Param('id',ParseIntPipe) id:number, @Body() post:UpdatePostDto){
+        
     }
     
 

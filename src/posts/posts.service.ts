@@ -7,7 +7,8 @@ export class PostsService{
     private posts : IPost[] = [
         {
             title:'first title',
-            content:'first content'
+            content:'first content',
+            release_date:12
         }
     ]
 
