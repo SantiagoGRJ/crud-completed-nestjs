@@ -1,19 +1,23 @@
 import {  Injectable, NotFoundException } from "@nestjs/common";
 import { IPost } from "./interfaces/cat.interface";
+import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class PostsService{
 
+     constructor (private prisma:PrismaService) {}
+
+
     private posts : IPost[] = [
         {
-            title:'first title',
+            name:'first title',
             content:'first content',
             release_date:12
         }
     ]
 
-    getAllPosts () {
-        return this.posts
+   async getAllPosts () {
+        return await this.prisma.post.findMany()
     }
 
     getPostById(id:number){
@@ -26,12 +30,8 @@ export class PostsService{
 
     }
 
-    createPost(post:IPost) {
-        this.posts.push({
-            ...post,
-            id:this.posts.length+1,
-        })
-        return post
+    async createPost(post:IPost) {
+       return await this.prisma.post.create({data:post})
     }
 
     updatePost(id:number,post:IPost){

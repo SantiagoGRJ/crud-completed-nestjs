@@ -3,7 +3,7 @@ export interface IPost{
     
     id?:number
     
-    title:string
+    name:string
     
     content:string
     

@@ -10,8 +10,8 @@ export class PostsController {
     constructor(private postsService:PostsService){}
 
     @Get()
-    getAllPosts() {
-        return this.postsService.getAllPosts()
+    async getAllPosts() {
+        return await this.postsService.getAllPosts()
     }
 
     @Get(':id')
@@ -20,8 +20,8 @@ export class PostsController {
     }
 
     @Post()
-    createPost(@Body() post:CreatePostDto){
-        return this.postsService.createPost(post)
+    async createPost(@Body() post:CreatePostDto){
+        return await this.postsService.createPost(post)
     }
     
     @Put(':id')

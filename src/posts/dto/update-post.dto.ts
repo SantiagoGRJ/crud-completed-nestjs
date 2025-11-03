@@ -3,7 +3,7 @@ export class UpdatePostDto{
     
     id?:string
     
-    title:string
+    name:string
     
     content:string
 
