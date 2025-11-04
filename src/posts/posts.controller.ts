@@ -2,14 +2,19 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 
 @Controller('posts')
+@ApiTags('posts')
 export class PostsController {
 
     constructor(private postsService:PostsService){}
 
     @Get()
+    @ApiOperation({summary:'Get All Posts'})
+    @ApiResponse({status:200, description:'Return all Posts'})
+    @ApiResponse({status:403, description:'Forbidden.'})
     async getAllPosts() {
         return await this.postsService.getAllPosts()
     }
