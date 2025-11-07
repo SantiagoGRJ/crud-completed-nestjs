@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
@@ -15,9 +15,13 @@ export class PostsController {
     @ApiOperation({summary:'Get All Posts'})
     @ApiResponse({status:200, description:'Return all Posts'})
     @ApiResponse({status:403, description:'Forbidden.'})
-    async getAllPosts() {
-        return await this.postsService.getAllPosts()
-    }
+    async getAllPosts(
+        @Query('name') name:string,
+        @Query('content') content:string,
+        @Query('order', new DefaultValuePipe(false), new ParseBoolPipe({optional:true})) order:boolean
+    ) {
+        return await this.postsService.getAllPosts(name,content,order)
+    }   
 
     @Get(':id')
     @ApiOperation({summary:'Get Post By Id'})
