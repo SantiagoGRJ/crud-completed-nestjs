@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { Transform } from "class-transformer"
 import { IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class UpdatePostDto{
@@ -18,6 +19,7 @@ export class UpdatePostDto{
     @ApiProperty()
 
     @IsNotEmpty()
+    @Transform(() => Number)
     @IsNumber()
     release_date: number
 }

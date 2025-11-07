@@ -8,9 +8,8 @@ export class PostsService{
     constructor (private prisma:PrismaService) {}
 
    async getAllPosts (name:string,content:string,orderBy:boolean, page : number ,pageSize : number) {
-    
-    
-    const orderB  = orderBy ? 'desc' : 'asc'
+    try {
+        const orderB  = orderBy ? 'desc' : 'asc'
         return await this.prisma.post.findMany({
             skip:(page - 1) * pageSize,     
             take:pageSize,
@@ -27,6 +26,9 @@ export class PostsService{
                 id:orderB
             }
         })
+    } catch (error) {
+        throw new InternalServerErrorException('Unexpected Error in Filtered Search')
+    }
     }
 
    async getPostById(id:number){
