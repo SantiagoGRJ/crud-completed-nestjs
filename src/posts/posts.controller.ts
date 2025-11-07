@@ -3,6 +3,7 @@ import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ValidateorderPipe } from "./pipes/validateorder/validateorder.pipe";
 
 
 @Controller('posts')
@@ -15,11 +16,12 @@ export class PostsController {
     @ApiOperation({summary:'Get All Posts'})
     @ApiResponse({status:200, description:'Return all Posts'})
     @ApiResponse({status:403, description:'Forbidden.'})
+    
     async getAllPosts(
         @Query('name') name:string,
         @Query('content') content:string,
-        @Query('order', new DefaultValuePipe(false), new ParseBoolPipe({optional:true})) order:boolean
-    ) {
+        @Query('order', new ValidateorderPipe()) order:boolean
+    ){
         return await this.postsService.getAllPosts(name,content,order)
     }   
 

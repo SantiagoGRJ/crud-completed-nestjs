@@ -8,7 +8,7 @@ export class PostsService{
     constructor (private prisma:PrismaService) {}
 
    async getAllPosts (name:string,content:string,orderBy:boolean) {
-        const orderB = orderBy ? 'desc' : 'asc'
+        const orderB  = orderBy ? 'desc' : 'asc'
         return await this.prisma.post.findMany({
             where:{
                 name:{
