@@ -3,11 +3,12 @@ import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from
 @Injectable()
 export class ValidateorderPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    const lower = value.toLowerCase();
+    
      if (value === '' || value === null || value === undefined) {
       return undefined;
     }
 
+    const lower = value.toLowerCase();
     
     if (typeof value === 'string') {
       

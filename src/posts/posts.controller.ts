@@ -1,9 +1,10 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param,  ParseIntPipe, Post, Put, Query } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ValidateorderPipe } from "./pipes/validateorder/validateorder.pipe";
+import { SearchQueryDto } from "./dto/search-query.dto";
 
 
 @Controller('posts')
@@ -20,9 +21,10 @@ export class PostsController {
     async getAllPosts(
         @Query('name') name:string,
         @Query('content') content:string,
-        @Query('order', new ValidateorderPipe()) order:boolean
+        @Query('order', new ValidateorderPipe()) order:boolean,
+        @Query() {page,pageSize}:SearchQueryDto,
     ){
-        return await this.postsService.getAllPosts(name,content,order)
+        return await this.postsService.getAllPosts(name,content,order,page,pageSize)
     }   
 
     @Get(':id')
