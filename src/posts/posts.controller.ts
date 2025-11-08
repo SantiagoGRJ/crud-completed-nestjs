@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, Param,  ParseIntPipe, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param,  ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors, UsePipes } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { ValidateorderPipe } from "./pipes/validateorder/validateorder.pipe";
 import { SearchQueryDto } from "./dto/search-query.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { FileSizeValidationPipe } from "./pipes/file-size-validation/file-size-validation.pipe";
 
 
 @Controller('posts')
-@ApiTags('posts')
+
 export class PostsController {
 
     constructor(private postsService:PostsService){}
@@ -32,6 +34,13 @@ export class PostsController {
     async createPost(@Body() post:CreatePostDto){
         return await this.postsService.createPost(post)
     }
+
+    @Post('upload')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadFile(@UploadedFile(new FileSizeValidationPipe(),) file:Express.Multer.File){
+        console.log(file)
+    }
+   
     
     @Put(':id')
     async updatePost(@Param('id',ParseIntPipe) id:number, @Body() post:UpdatePostDto){
