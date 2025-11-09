@@ -5,11 +5,15 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma.module';
 import { PostsModule } from './posts/posts.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 
 @Module({
-  imports: [PostsModule, ConfigModule.forRoot(), PrismaModule],
+  imports: [MulterModule.register({
+    dest: './upload',
+  }),
+    PostsModule, ConfigModule.forRoot(), PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

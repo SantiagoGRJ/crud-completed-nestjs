@@ -1,8 +1,7 @@
-import { Body, Controller, Delete, Get, Param,  ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors, UsePipes } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
-import { ApiTags } from "@nestjs/swagger";
 import { ValidateorderPipe } from "./pipes/validateorder/validateorder.pipe";
 import { SearchQueryDto } from "./dto/search-query.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -37,8 +36,12 @@ export class PostsController {
 
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
-    uploadFile(@UploadedFile(new FileSizeValidationPipe(),) file:Express.Multer.File){
-        console.log(file)
+    uploadFile(@UploadedFile(new FileSizeValidationPipe) file:Express.Multer.File){
+       console.log(file);
+       return {
+        message:'file uploaded successfully',
+       }
+       
     }
    
     
