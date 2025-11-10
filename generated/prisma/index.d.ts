@@ -875,26 +875,26 @@ export namespace Prisma {
 
   export type PostAvgAggregateOutputType = {
     id: number | null
-    release_date: number | null
   }
 
   export type PostSumAggregateOutputType = {
     id: number | null
-    release_date: number | null
   }
 
   export type PostMinAggregateOutputType = {
     id: number | null
     name: string | null
     content: string | null
-    release_date: number | null
+    release_date: string | null
+    path_image: string | null
   }
 
   export type PostMaxAggregateOutputType = {
     id: number | null
     name: string | null
     content: string | null
-    release_date: number | null
+    release_date: string | null
+    path_image: string | null
   }
 
   export type PostCountAggregateOutputType = {
@@ -902,18 +902,17 @@ export namespace Prisma {
     name: number
     content: number
     release_date: number
+    path_image: number
     _all: number
   }
 
 
   export type PostAvgAggregateInputType = {
     id?: true
-    release_date?: true
   }
 
   export type PostSumAggregateInputType = {
     id?: true
-    release_date?: true
   }
 
   export type PostMinAggregateInputType = {
@@ -921,6 +920,7 @@ export namespace Prisma {
     name?: true
     content?: true
     release_date?: true
+    path_image?: true
   }
 
   export type PostMaxAggregateInputType = {
@@ -928,6 +928,7 @@ export namespace Prisma {
     name?: true
     content?: true
     release_date?: true
+    path_image?: true
   }
 
   export type PostCountAggregateInputType = {
@@ -935,6 +936,7 @@ export namespace Prisma {
     name?: true
     content?: true
     release_date?: true
+    path_image?: true
     _all?: true
   }
 
@@ -1028,7 +1030,8 @@ export namespace Prisma {
     id: number
     name: string
     content: string
-    release_date: number
+    release_date: string
+    path_image: string | null
     _count: PostCountAggregateOutputType | null
     _avg: PostAvgAggregateOutputType | null
     _sum: PostSumAggregateOutputType | null
@@ -1055,6 +1058,7 @@ export namespace Prisma {
     name?: boolean
     content?: boolean
     release_date?: boolean
+    path_image?: boolean
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1062,6 +1066,7 @@ export namespace Prisma {
     name?: boolean
     content?: boolean
     release_date?: boolean
+    path_image?: boolean
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1069,6 +1074,7 @@ export namespace Prisma {
     name?: boolean
     content?: boolean
     release_date?: boolean
+    path_image?: boolean
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectScalar = {
@@ -1076,9 +1082,10 @@ export namespace Prisma {
     name?: boolean
     content?: boolean
     release_date?: boolean
+    path_image?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "release_date", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "release_date" | "path_image", ExtArgs["result"]["post"]>
 
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Post"
@@ -1087,7 +1094,8 @@ export namespace Prisma {
       id: number
       name: string
       content: string
-      release_date: number
+      release_date: string
+      path_image: string | null
     }, ExtArgs["result"]["post"]>
     composites: {}
   }
@@ -1514,7 +1522,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Post", 'Int'>
     readonly name: FieldRef<"Post", 'String'>
     readonly content: FieldRef<"Post", 'String'>
-    readonly release_date: FieldRef<"Post", 'Int'>
+    readonly release_date: FieldRef<"Post", 'String'>
+    readonly path_image: FieldRef<"Post", 'String'>
   }
     
 
@@ -1899,7 +1908,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     content: 'content',
-    release_date: 'release_date'
+    release_date: 'release_date',
+    path_image: 'path_image'
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -1919,6 +1929,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -1978,7 +1996,8 @@ export namespace Prisma {
     id?: IntFilter<"Post"> | number
     name?: StringFilter<"Post"> | string
     content?: StringFilter<"Post"> | string
-    release_date?: IntFilter<"Post"> | number
+    release_date?: StringFilter<"Post"> | string
+    path_image?: StringNullableFilter<"Post"> | string | null
   }
 
   export type PostOrderByWithRelationInput = {
@@ -1986,23 +2005,26 @@ export namespace Prisma {
     name?: SortOrder
     content?: SortOrder
     release_date?: SortOrder
+    path_image?: SortOrderInput | SortOrder
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     name?: string
+    path_image?: string
     AND?: PostWhereInput | PostWhereInput[]
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
     content?: StringFilter<"Post"> | string
-    release_date?: IntFilter<"Post"> | number
-  }, "id" | "name">
+    release_date?: StringFilter<"Post"> | string
+  }, "id" | "name" | "path_image">
 
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
     release_date?: SortOrder
+    path_image?: SortOrderInput | SortOrder
     _count?: PostCountOrderByAggregateInput
     _avg?: PostAvgOrderByAggregateInput
     _max?: PostMaxOrderByAggregateInput
@@ -2017,53 +2039,61 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Post"> | number
     name?: StringWithAggregatesFilter<"Post"> | string
     content?: StringWithAggregatesFilter<"Post"> | string
-    release_date?: IntWithAggregatesFilter<"Post"> | number
+    release_date?: StringWithAggregatesFilter<"Post"> | string
+    path_image?: StringNullableWithAggregatesFilter<"Post"> | string | null
   }
 
   export type PostCreateInput = {
     name: string
     content: string
-    release_date: number
+    release_date: string
+    path_image?: string | null
   }
 
   export type PostUncheckedCreateInput = {
     id?: number
     name: string
     content: string
-    release_date: number
+    release_date: string
+    path_image?: string | null
   }
 
   export type PostUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    release_date?: IntFieldUpdateOperationsInput | number
+    release_date?: StringFieldUpdateOperationsInput | string
+    path_image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PostUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    release_date?: IntFieldUpdateOperationsInput | number
+    release_date?: StringFieldUpdateOperationsInput | string
+    path_image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PostCreateManyInput = {
     id?: number
     name: string
     content: string
-    release_date: number
+    release_date: string
+    path_image?: string | null
   }
 
   export type PostUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    release_date?: IntFieldUpdateOperationsInput | number
+    release_date?: StringFieldUpdateOperationsInput | string
+    path_image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PostUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    release_date?: IntFieldUpdateOperationsInput | number
+    release_date?: StringFieldUpdateOperationsInput | string
+    path_image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2092,16 +2122,36 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type PostCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
     release_date?: SortOrder
+    path_image?: SortOrder
   }
 
   export type PostAvgOrderByAggregateInput = {
     id?: SortOrder
-    release_date?: SortOrder
   }
 
   export type PostMaxOrderByAggregateInput = {
@@ -2109,6 +2159,7 @@ export namespace Prisma {
     name?: SortOrder
     content?: SortOrder
     release_date?: SortOrder
+    path_image?: SortOrder
   }
 
   export type PostMinOrderByAggregateInput = {
@@ -2116,11 +2167,11 @@ export namespace Prisma {
     name?: SortOrder
     content?: SortOrder
     release_date?: SortOrder
+    path_image?: SortOrder
   }
 
   export type PostSumOrderByAggregateInput = {
     id?: SortOrder
-    release_date?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2157,8 +2208,30 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -2192,6 +2265,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2236,6 +2323,34 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
 

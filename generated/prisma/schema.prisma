@@ -15,8 +15,9 @@ datasource db {
 }
 
 model Post {
-  id           Int    @id @default(autoincrement())
-  name         String @unique
+  id           Int     @id @default(autoincrement())
+  name         String  @unique
   content      String
-  release_date Int
+  release_date String
+  path_image   String? @unique
 }

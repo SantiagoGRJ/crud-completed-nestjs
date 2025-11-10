@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { Transform } from "class-transformer"
-import { IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class UpdatePostDto{
 
@@ -19,7 +19,9 @@ export class UpdatePostDto{
     @ApiProperty()
 
     @IsNotEmpty()
-    @Transform(() => Number)
-    @IsNumber()
-    release_date: number
+    @IsString()
+    release_date: string
+
+    @IsOptional()
+    path_image:string
 }

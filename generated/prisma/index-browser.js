@@ -124,7 +124,8 @@ exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   name: 'name',
   content: 'content',
-  release_date: 'release_date'
+  release_date: 'release_date',
+  path_image: 'path_image'
 };
 
 exports.Prisma.SortOrder = {
@@ -135,6 +136,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

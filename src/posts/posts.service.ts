@@ -1,6 +1,7 @@
 import {  ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { IPost } from "./interfaces/cat.interface";
 import { PrismaService } from "../prisma.service";
+import { IImage } from "../interfaces/image.interface";
 
 @Injectable()
 export class PostsService{
@@ -45,9 +46,16 @@ export class PostsService{
 
     }
 
-    async createPost(post:IPost) {
+    async createPost(post:IPost,image:IImage) {
        try {
-        const newPost = await this.prisma.post.create({data:post}) 
+        const newPost = await this.prisma.post.create({
+            data:{
+                name:post.name,
+                content:post.content,
+                release_date:post.release_date,
+                path_image:image.filename
+            }
+        }) 
 
         return newPost
 

@@ -35,7 +35,7 @@ export class PostsController {
         @Body() post:CreatePostDto,
         @UploadedFile(new FileSizeValidationPipe) file:Express.Multer.File
     ){
-        return await this.postsService.createPost(post)
+        return await this.postsService.createPost(post,file)
     }
 
     @Post('upload')
