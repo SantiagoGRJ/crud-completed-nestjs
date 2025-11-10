@@ -12,7 +12,7 @@ import { extname } from "path";
             storage:diskStorage({
                 destination:'./uploads',
                 filename:(req,file,cb) => {
-                    const filename =`${Date.now()}${file.originalname}`
+                    const filename =`${Date.now()}-${file.originalname}`
                     cb(null,filename.split(' ').join(''))
                 }
             }),

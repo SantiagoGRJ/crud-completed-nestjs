@@ -14,7 +14,7 @@ export class PostsController {
 
     constructor(private postsService:PostsService){}
 
-    @Get()    
+    @Get()   
     async getAllPosts(
         @Query('name') name:string,
         @Query('content') content:string,
@@ -30,12 +30,16 @@ export class PostsController {
     }
 
     @Post()
-    async createPost(@Body() post:CreatePostDto){
+    @UseInterceptors(FileInterceptor('image'))
+    async createPost(
+        @Body() post:CreatePostDto,
+        @UploadedFile(new FileSizeValidationPipe) file:Express.Multer.File
+    ){
         return await this.postsService.createPost(post)
     }
 
     @Post('upload')
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(FileInterceptor('image'))
     uploadFile(@UploadedFile(new FileSizeValidationPipe) file:Express.Multer.File){
        console.log(file);
        return {
