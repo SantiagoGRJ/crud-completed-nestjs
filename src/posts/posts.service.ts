@@ -1,91 +1,118 @@
-import {  ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { IPost } from "./interfaces/cat.interface";
 import { PrismaService } from "../prisma.service";
 import { IImage } from "../interfaces/image.interface";
+import { existsSync, unlink } from "fs";
+import { join } from "path";
+
 
 @Injectable()
-export class PostsService{
+export class PostsService {
 
-    constructor (private prisma:PrismaService) {}
+    constructor(private prisma: PrismaService) { }
 
-   async getAllPosts (name:string,content:string,orderBy:boolean, page : number ,pageSize : number) {
-    try {
-        const orderB  = orderBy ? 'desc' : 'asc'
-        return await this.prisma.post.findMany({
-            skip:(page - 1) * pageSize,     
-            take:pageSize,
-            where:{
-                name:{
-                    contains:name
+    async getAllPosts(name: string, content: string, orderBy: boolean, page: number, pageSize: number) {
+        try {
+            const orderB = orderBy ? 'desc' : 'asc'
+            return await this.prisma.post.findMany({
+                skip: (page - 1) * pageSize,
+                take: pageSize,
+                where: {
+                    name: {
+                        contains: name
+                    },
+                    content: {
+                        contains: content
+                    },
+
                 },
-                content:{
-                    contains:content
-                },
-
-            },
-            orderBy:{
-                id:orderB
-            }
-        })
-    } catch (error) {
-        throw new InternalServerErrorException('Unexpected Error in Filtered Search')
-    }
-    }
-
-   async getPostById(id:number){
-        const post = await this.prisma.post.findUnique({
-            where:{
-                id:id
-            }
-        })
-
-        if(!post){
-            return new NotFoundException(`Post with id ${id} not found`)
+                orderBy: {
+                    id: orderB
+                }
+            })
+        } catch (error) {
+            throw new InternalServerErrorException('Unexpected Error in Filtered Search')
         }
+    }
+
+    async getPostById(id: number) {
+
+        const post = await this.prisma.post.findUnique({
+            where: {
+                id: id
+            }
+        })
+
+        if (!post) {
+            throw new NotFoundException(`Post with id ${id} not Found`)
+        }
+
         return post
 
     }
 
-    async createPost(post:IPost,image:IImage) {
-       try {
-        const newPost = await this.prisma.post.create({
-            data:{
-                name:post.name,
-                content:post.content,
-                release_date:post.release_date,
-                path_image:image.filename
+    async createPost(post: IPost, image: IImage) {
+        try {
+            const newPost = await this.prisma.post.create({
+                data: {
+                    name: post.name,
+                    content: post.content,
+                    release_date: post.release_date,
+                    path_image: image.filename
+                }
+            })
+
+            return newPost
+
+        } catch (error) {
+
+            if (error.code === "P2002") {
+                throw new ConflictException(`The ${error.meta?.target} is taken, try another different`)
+
             }
-        }) 
 
-        return newPost
-
-       } catch (error) {
-        
-        if(error.code === "P2002"){
-            throw new ConflictException(`The ${error.meta?.target} is taken, try another different`)
-        
+            throw new InternalServerErrorException('Create Post Error')
         }
-        
-        throw new InternalServerErrorException('Create Post Error')
-       }   
     }
 
-    async updatePost(id:number,post:IPost){
-       
-        try{
-             const updatePost = await this.prisma.post.update({
-            where:{
-                id:id
-            },
-            data:post
-        })
-        return updatePost
-        
-        }catch (error) {
-            if(error.code === "P2025"){
+    async updatePost(id: number, post: IPost, image: IImage) {
+
+        try {
+            let postOld = await this.getPostById(id)
+           
+            if(postOld.path_image){
+                const imagePath = join(process.cwd(),'uploads',postOld.path_image)
+                
+                if(existsSync(imagePath)){
+                    unlink(imagePath,(err)=>{
+                        if(err?.code !== 'ENOENT'){
+                            console.log('Error deleting File: ',err);
+                        }
+                        console.log('File deleted');
+                        
+                    })
+                }
+            }
+
+
+            const updatePost = await this.prisma.post.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    name: post.name,
+                    content: post.content,
+                    release_date: post.release_date,
+                    path_image: image.filename
+                }
+            })
+            return updatePost
+
+        } catch (error) {
+            if (error.code === "P2025") {
                 throw new NotFoundException(`Post with id ${id} not found`)
             }
-            if(error.code === "P2002"){
+            if (error.code === "P2002") {
                 throw new ConflictException(`The ${error.meta?.target} is taken, try another different`)
             }
 
@@ -95,20 +122,20 @@ export class PostsService{
 
     }
 
-    async deletePost(id:number){
-        try{
+    async deletePost(id: number) {
+        try {
             return await this.prisma.post.delete({
-                where:{
+                where: {
                     id
                 }
             })
-        }catch(error){
-            if(error.code === "P2025"){
+        } catch (error) {
+            if (error.code === "P2025") {
                 throw new NotFoundException(`Post with id ${id} not found`)
             }
             throw new InternalServerErrorException(`Unexpected Error while deleting Post`)
         }
     }
-    
+
 
 }

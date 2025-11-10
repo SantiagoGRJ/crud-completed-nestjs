@@ -51,8 +51,13 @@ export class PostsController {
    
     
     @Put(':id')
-    async updatePost(@Param('id',ParseIntPipe) id:number, @Body() post:UpdatePostDto){
-        return await this.postsService.updatePost(id,post)
+    @UseInterceptors(FileInterceptor('image'))
+    async updatePost(
+        @Param('id',ParseIntPipe) id:number, 
+        @Body() post:UpdatePostDto,
+        @UploadedFile(new FileSizeValidationPipe)  file: Express.Multer.File
+    ){
+        return await this.postsService.updatePost(id,post,file)
     }
 
     @Delete(':id')
