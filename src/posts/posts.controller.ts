@@ -40,6 +40,7 @@ export class PostsController {
        console.log(file);
        return {
         message:'file uploaded successfully',
+        file:file.filename
        }
        
     }

@@ -5,14 +5,17 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma.module';
 import { PostsModule } from './posts/posts.module';
-import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 
 @Module({
-  imports: [MulterModule.register({
-    dest: './upload',
-  }),
-    PostsModule, ConfigModule.forRoot(), PrismaModule],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname,'..','uploads'),
+      serveRoot:'/uploads'
+    })
+    ,PostsModule, ConfigModule.forRoot(), PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
