@@ -132,7 +132,7 @@ export class PostsService {
 
                 if(existsSync(imagePath)){
                     unlink(imagePath,(err)=>{
-                        if(err?.code !== 'ENOENT'){
+                        if(err){
                             console.log('Error deleting File: ',err);
                         }
                         console.log('File deleted');
