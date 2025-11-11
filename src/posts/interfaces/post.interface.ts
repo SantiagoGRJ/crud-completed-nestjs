@@ -1,3 +1,4 @@
+import { IImage } from "../../interfaces/image.interface"
 
 export interface IPost{
     
@@ -8,6 +9,6 @@ export interface IPost{
     
     release_date:string
 
-    path_image:string
+    path_image:IImage
 
 }

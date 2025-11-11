@@ -35,7 +35,12 @@ export class PostsController {
         @Body() post:CreatePostDto,
         @UploadedFile(new FileSizeValidationPipe) file:Express.Multer.File
     ){
-        return await this.postsService.createPost(post,file)
+        const newPost={
+            ...post,
+            path_image:file
+        }
+
+        return await this.postsService.createPost(newPost)
     }
 
     @Post('upload')
@@ -57,7 +62,11 @@ export class PostsController {
         @Body() post:UpdatePostDto,
         @UploadedFile(new FileSizeValidationPipe)  file: Express.Multer.File
     ){
-        return await this.postsService.updatePost(id,post,file)
+        const updatePost = {
+            ...post,
+            path_image:file
+        }
+        return await this.postsService.updatePost(id,updatePost)
     }
 
     @Delete(':id')

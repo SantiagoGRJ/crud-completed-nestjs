@@ -131,7 +131,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\AuxiliarVentas\\Downloads\\programming\\nestjs\\projects\\crud-completed-nestjs\\generated\\prisma",
+      "value": "C:\\Users\\santi\\Downloads\\programming\\nestjs\\crud-completed-nestjs\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -145,7 +145,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\AuxiliarVentas\\Downloads\\programming\\nestjs\\projects\\crud-completed-nestjs\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\santi\\Downloads\\programming\\nestjs\\crud-completed-nestjs\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -159,7 +159,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

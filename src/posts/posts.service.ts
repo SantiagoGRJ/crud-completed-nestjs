@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { IPost } from "./interfaces/cat.interface";
+import { IPost } from "./interfaces/post.interface";
 import { PrismaService } from "../prisma.service";
 import { IImage } from "../interfaces/image.interface";
 import { existsSync, unlink } from "fs";
@@ -51,14 +51,14 @@ export class PostsService {
 
     }
 
-    async createPost(post: IPost, image: IImage) {
+    async createPost(post: IPost) {
         try {
             const newPost = await this.prisma.post.create({
                 data: {
                     name: post.name,
                     content: post.content,
                     release_date: post.release_date,
-                    path_image: image.filename
+                    path_image: post.path_image.filename
                 }
             })
 
@@ -75,7 +75,7 @@ export class PostsService {
         }
     }
 
-    async updatePost(id: number, post: IPost, image: IImage) {
+    async updatePost(id: number, post: IPost) {
 
         try {
             let postOld = await this.getPostById(id)
@@ -103,7 +103,7 @@ export class PostsService {
                     name: post.name,
                     content: post.content,
                     release_date: post.release_date,
-                    path_image: image.filename
+                    path_image: post.path_image.filename
                 }
             })
             return updatePost
@@ -123,7 +123,24 @@ export class PostsService {
     }
 
     async deletePost(id: number) {
+        
         try {
+            const postDeleted = await this.getPostById(id)
+
+            if(postDeleted.path_image){
+                const imagePath = join(process.cwd(),'uploads',postDeleted.path_image)
+
+                if(existsSync(imagePath)){
+                    unlink(imagePath,(err)=>{
+                        if(err?.code !== 'ENOENT'){
+                            console.log('Error deleting File: ',err);
+                        }
+                        console.log('File deleted');
+                    })
+                }
+
+            }
+
             return await this.prisma.post.delete({
                 where: {
                     id
