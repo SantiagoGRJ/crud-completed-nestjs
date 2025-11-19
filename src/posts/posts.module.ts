@@ -3,7 +3,7 @@ import { PostsController } from "./posts.controller";
 import { PostsService } from "./posts.service";
 import { MulterModule } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import { extname } from "path";
+
 
 
 @Module({
