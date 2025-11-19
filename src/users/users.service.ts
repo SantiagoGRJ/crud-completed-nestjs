@@ -1,6 +1,5 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
-import { NotFoundError } from "rxjs";
 import { IUser } from "./interfaces/user.interface";
 
 @Injectable()
@@ -14,7 +13,7 @@ export class UsersService {
             return user
         } catch (err) {
             if(err?.code ==="P2002"){
-                throw new ConflictException(`The ${err?.meta} is taken, try another different`)
+                throw new ConflictException(`The ${err.meta?.target} is taken, try another different`)
             }
             throw new InternalServerErrorException('Create User Error')
         }
