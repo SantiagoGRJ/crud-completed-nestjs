@@ -128,6 +128,14 @@ exports.Prisma.PostScalarFieldEnum = {
   path_image: 'path_image'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -145,7 +153,8 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Post: 'Post'
+  Post: 'Post',
+  User: 'User'
 };
 
 /**
