@@ -2,5 +2,5 @@
 
 export const JWT_CONSTANTS = {
 
-    secret:"ESTA FRASE UNDEFINED FUNCIONA"
+    secret:"SE CAMBIO POR FALLO EN LA SUB DE ARCH"
 }
