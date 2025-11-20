@@ -12,4 +12,9 @@ export class AuthController {
         return await this.authService.register(user)
     }
 
+    @Post('login')
+    async logIn(@Body() user:{email:string,password:string}){
+        return await this.authService.authenticate(user)
+    }
+
 }
