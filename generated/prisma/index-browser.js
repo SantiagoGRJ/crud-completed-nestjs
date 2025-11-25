@@ -128,18 +128,19 @@ exports.Prisma.PostScalarFieldEnum = {
   path_image: 'path_image'
 };
 
+exports.Prisma.RoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   email: 'email',
   password: 'password',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.RoleScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
+  roleId: 'roleId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -162,8 +163,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Post: 'Post',
-  User: 'User',
-  Role: 'Role'
+  Role: 'Role',
+  User: 'User'
 };
 
 /**

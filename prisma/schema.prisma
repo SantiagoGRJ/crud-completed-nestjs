@@ -11,6 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+   url = env("DATABASE_URL")
 }
 
 model Post {
@@ -34,7 +35,7 @@ model User {
   username String @unique
   email String @unique 
   password String 
-  roleId Int
+  roleId Int @default(1)
   role Role @relation(fields: [roleId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
