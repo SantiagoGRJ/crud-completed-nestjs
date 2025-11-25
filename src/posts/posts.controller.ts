@@ -7,6 +7,7 @@ import { SearchQueryDto } from "./dto/search-query.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { FileSizeValidationPipe } from "./pipes/file-size-validation/file-size-validation.pipe";
 import { RolesAuth } from "../roles/guards/roles.guard";
+import { Roles } from "../roles/decorators/roles.decotator";
 
 
 @Controller('posts')
