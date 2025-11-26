@@ -6,7 +6,7 @@ import { JwtService } from "@nestjs/jwt";
 import { isMatch } from "../utils/compare-password";
 
 type AuthInput = { email: string, password: string }
-type SignInData = { userId: number, username: string }
+type SignInData = { userId: number, username: string, roleId:number[] }
 type AuthResult = { accessToken: string, userId: number, username: string }
 
 @Injectable()
@@ -48,6 +48,7 @@ export class AuthService {
         return {
             userId: user.id,
             username: user.username,
+            roleId:[user.roleId]
         };
     }
 
@@ -55,7 +56,8 @@ export class AuthService {
 
         const payLoad = {
             sub: user.userId,
-            username: user.username
+            username: user.username,
+            roles: user.roleId
         }
 
         const accessToken = await this.jwtService.signAsync(payLoad)

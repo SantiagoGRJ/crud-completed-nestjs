@@ -7,7 +7,9 @@ import { SearchQueryDto } from "./dto/search-query.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { FileSizeValidationPipe } from "./pipes/file-size-validation/file-size-validation.pipe";
 import { RolesAuth } from "../roles/guards/roles.guard";
-import { Roles } from "../roles/decorators/roles.decotator";
+import { Roles } from "../roles/decorators/roles.decorator";
+import { Role } from "../roles/enum/roles.enum";
+import { AuthGuard } from "../auth/guard/auth.guard";
 
 
 @Controller('posts')
@@ -26,7 +28,8 @@ export class PostsController {
         return await this.postsService.getAllPosts(name,content,order,page,pageSize)
     }   
 
-    @UseGuards(RolesAuth)
+    @UseGuards(AuthGuard,RolesAuth)
+    @Roles(Role.ADMIN)
     @Get(':id')
     async getPostById(@Param('id',ParseIntPipe) id:number){
         return await this.postsService.getPostById(id)

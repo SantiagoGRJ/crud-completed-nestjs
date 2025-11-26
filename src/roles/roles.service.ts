@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { IRole } from "./interfaces/rol.interface";
 
@@ -7,7 +7,23 @@ export class RolesService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async createRole(input: { name: string }) : Promise<IRole> {
+    async getRoleById(id: number) {
+        try {
+            const roles = await this.prismaService.role.findUnique({
+                where: {
+                    id: id
+                }
+            })
+            return roles
+        } catch (err) {
+            if (err?.code == "P2025") {
+                throw new NotFoundException(`Role not found, try again`)
+            }
+            throw new InternalServerErrorException()
+        }
+    }
+
+    async createRole(input: { name: string }): Promise<IRole> {
         try {
             const role = await this.prismaService.role.create({ data: input })
 

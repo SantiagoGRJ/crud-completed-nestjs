@@ -9,7 +9,12 @@ export class UsersService {
 
     async createUser(data:IUser) {
         try {
-            const user = await this.prisma.user.create({data})
+            const user = await this.prisma.user.create({
+                data:{
+                    ...data,
+                    roleId:2
+                }
+            })
             return user
         } catch (err) {
             if(err?.code ==="P2002"){

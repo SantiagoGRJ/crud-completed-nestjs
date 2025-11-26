@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { Roles } from "../decorators/roles.decotator";
-import { IRole } from "../interfaces/rol.interface";
+import { ROLES_KEY } from "../decorators/roles.decorator";
+import { Role } from "../enum/roles.enum";
 
 
 @Injectable()
@@ -9,18 +9,29 @@ export class RolesAuth implements CanActivate {
 
     constructor(private reflector: Reflector) { }
 
-    canActivate(context: ExecutionContext): Promise<boolean> | boolean {
-        const roles = this.reflector.get(Roles, context.getHandler())
-        if (!roles) {
-            return false
+    canActivate(context: ExecutionContext):  boolean {
+        const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
+            context.getHandler(),
+            context.getClass()
+        ])
+
+        if(!requiredRoles){
+            return true
         }
-        const request = context.switchToHttp().getRequest()
-        const user = request.user
-        return this.matchRoles(roles, user.roles)
+
+        const { user } = context.switchToHttp().getRequest()
+
+        const hasRequiredRole = requiredRoles.some((role) => user.roles?.includes(role))
+
+        if(!hasRequiredRole){
+            throw new UnauthorizedException('You don`t have permission ')
+        }
+
+        return hasRequiredRole
+
+        
     }
-    private matchRoles(roles: string[], userRoles: string[]) {
-        return roles.some(role => userRoles.includes(role))
-    }
+    
 
 
 }
