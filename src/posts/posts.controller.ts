@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
@@ -6,6 +6,8 @@ import { ValidateorderPipe } from "./pipes/validateorder/validateorder.pipe";
 import { SearchQueryDto } from "./dto/search-query.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { FileSizeValidationPipe } from "./pipes/file-size-validation/file-size-validation.pipe";
+import { RolesAuth } from "../roles/guards/roles.guard";
+import { Roles } from "../roles/decorators/roles.decotator";
 
 
 @Controller('posts')
@@ -24,6 +26,7 @@ export class PostsController {
         return await this.postsService.getAllPosts(name,content,order,page,pageSize)
     }   
 
+    @UseGuards(RolesAuth)
     @Get(':id')
     async getPostById(@Param('id',ParseIntPipe) id:number){
         return await this.postsService.getPostById(id)
