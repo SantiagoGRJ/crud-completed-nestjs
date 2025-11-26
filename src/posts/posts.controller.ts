@@ -47,19 +47,7 @@ export class PostsController {
         }
 
         return await this.postsService.createPost(newPost)
-    }
-
-    @Post('upload')
-    @UseInterceptors(FileInterceptor('image'))
-    uploadFile(@UploadedFile(new FileSizeValidationPipe) file:Express.Multer.File){
-       console.log(file);
-       return {
-        message:'file uploaded successfully',
-        file:file.filename
-       }
-       
-    }
-   
+    }   
     
     @Put(':id')
     @UseInterceptors(FileInterceptor('image'))
