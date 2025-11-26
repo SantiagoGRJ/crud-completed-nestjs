@@ -23,9 +23,6 @@ export class RolesAuth implements CanActivate {
 
         const hasRequiredRole = requiredRoles.some((role) => user.roles?.includes(role))
 
-        if(!hasRequiredRole){
-            throw new UnauthorizedException('You don`t have permission ')
-        }
 
         return hasRequiredRole
 

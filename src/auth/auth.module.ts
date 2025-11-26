@@ -5,7 +5,6 @@ import { AuthService } from "./auth.service";
 import { JwtModule } from "@nestjs/jwt";
 import { JWT_CONSTANTS } from "../config/constants";
 
-
 @Module({
     imports: [UsersModule,
         JwtModule.register({
